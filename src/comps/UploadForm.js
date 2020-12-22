@@ -26,6 +26,9 @@ const UploadForm = () => {
     // Classify the image
     const predictions = await model.classify(img);
 
+    // Reset img src after check (otherwise the classifier may get wrong input from previous img data)
+    img.src = "";
+
     return predictions;
   };
 
@@ -41,7 +44,7 @@ const UploadForm = () => {
       predictions.forEach((p) => {
         if (
           ["Hentai", "Porn", "Sexy"].includes(p.className) &&
-          p.probability > 0.05
+          p.probability >= 0.05
         ) {
           isBlocked = true;
         }
